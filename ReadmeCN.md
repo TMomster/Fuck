@@ -2,6 +2,10 @@
 
 ---
 
+English speaks are recommended to read [English version](./Readme.md)
+
+---
+
         Fuck 是一个快速启动程序的工具，将 fuck 目录添加到环境变量，即可快速启动程序。
 
         使用 Fuck 启动程序，您需要注册目标 exe 程序的路径，以 steam 应用为例：
