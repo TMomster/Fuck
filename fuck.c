@@ -18,10 +18,14 @@ int main(int argc, char *argv[]) {
 
     for (int i = 1; i < argc; i++) {
         strcat(command, " ");
-        strcat(command, argv[i]);
+        if (strchr(argv[i], ' ') != NULL) {
+            strcat(command, "\"");
+            strcat(command, argv[i]);
+            strcat(command, "\"");
+        } else {
+            strcat(command, argv[i]);
+        }
     }
-
-    // printf("Executing command: %s\n\n", command);
 
     int status = system(command);
 

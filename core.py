@@ -38,6 +38,9 @@ def create_upath_file(upath_name=None, upath_content=None):
         return f"err: UPATH '{upath_name}' has exists."
     if upath_content is None:
         upath_content = input(":: Enter the UPATH content (path): ").strip()
+    else:
+        if len(sys.argv) > 4:
+            upath_content = ' '.join(sys.argv[4:])
     if not upath_content:
         return "Canceled."
     if not (upath_content.startswith('"') and upath_content.endswith('"')):
@@ -127,14 +130,14 @@ def main():
     if len(sys.argv) < 3:
         print("Usage: core.py -m <command> [args]")
         print(":: Command ")
-        print("new, del, update, rename")
+        print("new, del, update, rename, cat, ls")
         return
 
     command = sys.argv[2]
 
     if command == "new":
         upath_name = sys.argv[3] if len(sys.argv) > 3 else None
-        upath_content = sys.argv[4] if len(sys.argv) > 4 else None
+        upath_content = ' '.join(sys.argv[4:]) if len(sys.argv) > 4 else None
         result = create_upath_file(upath_name, upath_content)
         print(result)
 
