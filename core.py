@@ -1,11 +1,39 @@
 import sys
 import os
 import subprocess
+import json
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 UPATH_DIRECTORY = os.path.join(SCRIPT_DIR, "memory/UPATH")
+CONFIG_FILE = os.path.join(SCRIPT_DIR, "memory/config.json")
 
 os.makedirs(UPATH_DIRECTORY, exist_ok=True)
+
+# 初始化配置文件
+if not os.path.exists(CONFIG_FILE):
+    with open(CONFIG_FILE, "w", encoding="utf-8") as f:
+        json.dump({"browser": ""}, f)
+
+def read_config():
+    with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+def write_config(config):
+    with open(CONFIG_FILE, "w", encoding="utf-8") as f:
+        json.dump(config, f)
+
+def set_browser_path(browser_path):
+    config = read_config()
+    config["browser"] = browser_path
+    write_config(config)
+    return f"Browser path set to: {browser_path}"
+
+def get_browser_path():
+    config = read_config()
+    return config.get("browser", "")
+
+def is_url(path):
+    return path.startswith(("http://", "https://", "www."))
 
 def read_upath_file(filename):
     file_path = os.path.join(UPATH_DIRECTORY, f"{filename}.upath")
@@ -20,15 +48,27 @@ def launch_path_from_upath(filename):
     path_content = read_upath_file(filename)
     if path_content.startswith("err:"):
         return path_content
+    
     path_content = path_content.strip('"')
-    if os.path.exists(path_content):
+    
+    if is_url(path_content):
+        browser_path = get_browser_path()
+        if not browser_path:
+            return "err: No browser configured. Use '-m browser set <path>' to set browser path."
         try:
-            subprocess.Popen(path_content)
-            return f"Launched: {path_content}"
+            subprocess.Popen([browser_path, path_content])
+            return f"Launched URL in browser: {path_content}"
         except Exception as e:
-            return f"err: Failed to launch {path_content}. Error: {str(e)}"
+            return f"err: Failed to launch URL {path_content}. Error: {str(e)}"
     else:
-        return f"err: UPATH '{path_content}' does not exist."
+        if os.path.exists(path_content):
+            try:
+                subprocess.Popen(path_content)
+                return f"Launched: {path_content}"
+            except Exception as e:
+                return f"err: Failed to launch {path_content}. Error: {str(e)}"
+        else:
+            return f"err: Path '{path_content}' does not exist."
 
 def create_upath_file(upath_name=None, upath_content=None):
     if upath_name is None:
@@ -37,13 +77,13 @@ def create_upath_file(upath_name=None, upath_content=None):
     if os.path.exists(file_path):
         return f"err: UPATH '{upath_name}' has exists."
     if upath_content is None:
-        upath_content = input(":: Enter the UPATH content (path): ").strip()
+        upath_content = input(":: Enter the UPATH content (path or URL): ").strip()
     else:
         if len(sys.argv) > 4:
             upath_content = ' '.join(sys.argv[4:])
     if not upath_content:
         return "Canceled."
-    if not (upath_content.startswith('"') and upath_content.endswith('"')):
+    if not is_url(upath_content) and not (upath_content.startswith('"') and upath_content.endswith('"')):
         upath_content = f'"{upath_content}"'
     with open(file_path, "w", encoding="utf-8") as file:
         file.write(upath_content)
@@ -66,8 +106,8 @@ def update_upath_file(upath_name=None, new_upath_content=None):
     if not os.path.exists(file_path):
         return f"err: UPATH '{upath_name}' not exists."
     if new_upath_content is None:
-        new_upath_content = input("Enter the new UPATH content (path): ").strip()
-    if not (new_upath_content.startswith('"') and new_upath_content.endswith('"')):
+        new_upath_content = input("Enter the new UPATH content (path or URL): ").strip()
+    if not is_url(new_upath_content) and not (new_upath_content.startswith('"') and new_upath_content.endswith('"')):
         new_upath_content = f'"{new_upath_content}"'
     with open(file_path, "w", encoding="utf-8") as file:
         file.write(new_upath_content)
@@ -130,7 +170,7 @@ def main():
     if len(sys.argv) < 3:
         print("Usage: core.py -m <command> [args]")
         print(":: Command ")
-        print("new, del, update, rename, cat, ls")
+        print("new, del, update, rename, cat, ls, browser")
         return
 
     command = sys.argv[2]
@@ -164,10 +204,26 @@ def main():
     elif command == "cat":
         filename = sys.argv[3] if len(sys.argv) > 3 else None
         cat_upath_file(filename)
+        
+    elif command == "browser":
+        if len(sys.argv) < 4:
+            print("Usage: core.py -m browser <set|get> [path]")
+            return
+        subcmd = sys.argv[3]
+        if subcmd == "set":
+            if len(sys.argv) < 5:
+                print("Please specify browser path")
+                return
+            browser_path = ' '.join(sys.argv[4:])
+            print(set_browser_path(browser_path))
+        elif subcmd == "get":
+            print(f"Current browser path: {get_browser_path()}")
+        else:
+            print(f"Unknown browser command: {subcmd}")
 
     else:
         print(f"Unknown command: {command}")
-        print("Available commands: new, del, update, rename, ls, cat")
+        print("Available commands: new, del, update, rename, ls, cat, browser")
 
 if __name__ == "__main__":
     print("---------->>>")

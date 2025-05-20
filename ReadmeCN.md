@@ -64,4 +64,20 @@ UPATH 'err' has been deleted successfully.
 
 ---
 
+##### 浏览器配置
+
+        通过 `fuck -m browser set ...` 即可设置 Fuck 的默认浏览器路径，这样就可以使用与网址相关的快捷功能。
+
+        UPATH 可以存储网址，这样就可以通过 Fuck 快速使用预置的浏览器打开网址。
+
+```bash
+fuck -m browser set "..."
+fuck -m new google "www.google.com"
+fuck google
+```
+
+        如果要修改浏览器配置，只需要再次使用 `fuck -m browser set ...` 即可。
+
+---
+
 TMomster, 2025.05.19
