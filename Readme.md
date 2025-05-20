@@ -32,7 +32,7 @@ Using `fuck -m` is a statement of you are using codes under the command mode.
 fuck -m
 ```
 
-Now, let's see how the commands can do.
+Now, let's see what the commands can do.
 
 ```bash
 fuck -m new [upath-name] [upath-content]
