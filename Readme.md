@@ -11,7 +11,7 @@ Fuck is a tool for quickly launching programs by adding the fuck deirectory to t
 To start a program using Fuck, you need to register the path of target exe file. Taking an application as example.
 
 ```bash
-fuck -m new example C:\Program Files (x86)\example\example.exe
+fuck -m new example "C:\Program Files (x86)\example\example.exe"
 ```
 
 Now, you can quickly start it by using Fuck.
