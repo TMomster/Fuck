@@ -26,7 +26,7 @@ If you have already set some upath in Fuck's memory, using `fuck + upath-name` i
 
 However, when you first use Fuck, there's no upath in the directory. To manage the memory of Fuck, and also the configs, you need the Fuck command to tell the program what you want to do.
 
-Using `fuck -m` is a statement of you are using codes under the command mode.
+Using `fuck -m` as a statement of you are using codes under the command mode.
 
 ```bash
 fuck -m
