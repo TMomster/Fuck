@@ -2,7 +2,7 @@
 
 ---
 
-English speaks are recommended to read [English version](./Readme.md)
+English speaks are recommended to read [English version](./Readme.md) .
 
 ---
 
