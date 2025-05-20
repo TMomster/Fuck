@@ -2,6 +2,10 @@
 
 ---
 
+如果您是中文使用者，请阅读 [中文版说明](./Readme.md)
+
+---
+
 Fuck is a tool for quickly launching programs by adding the fuck deirectory to the environment variable.
 
 To start a program using Fuck, you need to register the path of target exe file. Taking an application as example.
