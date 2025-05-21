@@ -86,7 +86,7 @@ fuck -m browser set "path/to/browser"
 
 Sometimes exe files require one or more parameters when you are call them.
 
-Fuck allows you to using command with extra parameters.
+Fuck allows you to use command with extra parameters.
 
 For example, here is a `repeator.exe` compiled from C language.
 
