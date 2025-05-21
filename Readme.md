@@ -74,7 +74,51 @@ fuck -m new google "www.google.com"
 
 When you're activating a upath file with web URL, the program will call the browser to search the website.
 
-It means you need to set the browser path at first.
+It means you need to set the browser path at first. Using command `fuck -m browser set ...` to set the default browser of program.
+
+```
+fuck -m browser set "path/to/browser"
+```
+
+---
+
+##### Using Command with Parameter
+
+Sometimes exe files require one or more parameters when you are call them.
+
+Fuck allows you to using command with extra parameters.
+
+For example, here is a `repeator.exe` compiled from C language.
+
+```c
+// C:\programs\repeator.exe
+#include <stdio.h>
+int main(int argc, char* argv[]) {
+    for (int i = 1; i < argc; i ++) {
+        printf("%s ", argv[i]);
+    }
+    return 0;
+}
+```
+
+This program will repeat any strings you send to it.
+
+Now we try to register and use the program in Fuck.
+
+```bash
+fuck -m new repeator "C:\program\repeator.exe"
+fuck repeator hello world
+```
+
+In this case, we send 2 strings as the program's parameters.
+
+This calling is same as:
+
+```bash
+start "C:\program\repeator.exe" hello world
+```
+
+Therefore, the result is to repeat the message "hello world" once.
 
 ---
 
