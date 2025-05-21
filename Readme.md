@@ -74,6 +74,8 @@ fuck -m new google "www.google.com"
 
 When you're activating a upath file with web URL, the program will call the browser to search the website.
 
+It means you need to set the browser path at first.
+
 ---
 
 TMomster, 2025.05.21
