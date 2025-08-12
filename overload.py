@@ -1,8 +1,5 @@
 """
-overload 提供函数重载的支持。
-
 overload provides support for function overloading.
-
 Author: TMomster
 """
 
@@ -22,7 +19,6 @@ class Overload:
             if param.annotation is inspect.Parameter.empty:
                 raise TypeError(f"参数 {param.name} 缺少类型注解。")
             type_hints.append(param.annotation)
-        # 检查是否已存在相同的类型签名
         for existing_sig, existing_th, _ in self.functions:
             if type_hints == existing_th:
                 raise ValueError(f"重复注册类型签名 {type_hints} 的函数。")
@@ -46,8 +42,7 @@ class Overload:
             if valid:
                 matched.append((type_hints, func))
         if not matched:
-            raise TypeError("没有匹配的函数重载。")
-        # 选择最具体的函数
+            raise TypeError("没有匹配的重载。")
         selected = None
         for th, func in matched:
             if selected is None:
@@ -59,7 +54,7 @@ class Overload:
             elif self._is_more_specific(current_th, th):
                 continue
             else:
-                raise TypeError("函数调用存在二义性，无法确定最具体的重载。")
+                raise TypeError("调用存在二义性，无法确定具体的重载。")
         return selected[1](*args, **kwargs)
 
     @staticmethod
@@ -84,7 +79,7 @@ def overload(func):
 
 
 if __name__ == "__main__":
-    print("-- Myss Function Overload Tools --")
+    print("-- Function Overload Tools --")
     print("This is a demo of myss function overload tools.")
     print("Now we'll demonstrate the usage of decorator 'overload'.")
 

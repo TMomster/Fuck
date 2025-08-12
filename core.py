@@ -7,13 +7,13 @@ import shutil
 from time import time
 from threading import Timer
 from outstream import rgb_to_ansi
-from utils import read_config, write_config, read_upath_file  # 导入 utils 中的函数
+from utils import read_config, write_config, read_upath_file
 
 RED = rgb_to_ansi(200, 50, 50)
 LIGHT_GREEN = rgb_to_ansi(100, 255, 100)
 LIGHT_BLUE = rgb_to_ansi(100, 100, 255)
 YELLOW = rgb_to_ansi(255, 255, 100)
-ORANGE = rgb_to_ansi(255, 165, 0)  # 定义橙色
+ORANGE = rgb_to_ansi(255, 165, 0)
 RESET = "\033[0m"
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -81,7 +81,6 @@ def create_upath_file(upath_name=None, upath_content=None):
         else:
             return f"{RED}Failed to download image{RESET}"
     
-    # 自动添加引号逻辑调整
     if not is_url(upath_content) and not (upath_content.startswith('"') and upath_content.endswith('"')):
         upath_content = f'"{upath_content}"'
     
@@ -90,7 +89,6 @@ def create_upath_file(upath_name=None, upath_content=None):
     return f"UPATH '{upath_name}' created successfully."
 
 def launch_path_from_upath(filename):
-    # 检查所有目录
     for directory in [UPATH_DIRECTORY, IMAGES_DIRECTORY, URL_DIRECTORY]:
         file_path = os.path.join(directory, f"{filename}.upath")
         if os.path.exists(file_path):
@@ -102,7 +100,6 @@ def launch_path_from_upath(filename):
 def delete_upath_file(filename=None):
     if filename is None:
         filename = input("Enter the UPATH name (without suffix) to delete: ").strip()
-    # 检查所有目录
     for directory in [UPATH_DIRECTORY, IMAGES_DIRECTORY, URL_DIRECTORY]:
         file_path = os.path.join(directory, f"{filename}.upath")
         if os.path.exists(file_path):
@@ -113,7 +110,6 @@ def delete_upath_file(filename=None):
 def update_upath_file(upath_name=None, new_upath_content=None):
     if upath_name is None:
         upath_name = input("Enter the UPATH name (without suffix) to update: ").strip()
-    # 检查所有目录
     for directory in [UPATH_DIRECTORY, IMAGES_DIRECTORY, URL_DIRECTORY]:
         file_path = os.path.join(directory, f"{upath_name}.upath")
         if os.path.exists(file_path):
@@ -129,7 +125,6 @@ def update_upath_file(upath_name=None, new_upath_content=None):
 def rename_upath_file(current_name=None, new_name=None):
     if current_name is None:
         current_name = input("Enter the current UPATH name (without suffix): ").strip()
-    # 检查所有目录
     for directory in [UPATH_DIRECTORY, IMAGES_DIRECTORY, URL_DIRECTORY]:
         current_path = os.path.join(directory, f"{current_name}.upath")
         if os.path.exists(current_path):
@@ -195,7 +190,6 @@ def list_upath_files():
         elif file_type == "url":
             print(f"{file_name:<{max_name_length}}  {LIGHT_GREEN}{content}{RESET}")
         else:
-            # Check if the content is an executable file
             if content.lower().endswith('.exe'):
                 print(f"{file_name:<{max_name_length}}  {content}")
             else:
@@ -207,7 +201,6 @@ def list_upath_files():
 def cat_upath_file(filename=None):
     if filename is None:
         filename = input("Enter the UPATH name (without suffix) to display: ").strip()
-    # 检查所有目录
     for directory in [UPATH_DIRECTORY, IMAGES_DIRECTORY, URL_DIRECTORY]:
         file_path = os.path.join(directory, f"{filename}.upath")
         if os.path.exists(file_path):
@@ -217,6 +210,16 @@ def cat_upath_file(filename=None):
             print(f"{LIGHT_GREEN}{content}{RESET}")
             return
     print(f"{RED}err: UPATH '{filename}' not exists.{RESET}")
+
+def set_privacy_mode(enabled):
+    config = read_config()
+    config["privacy_mode"] = enabled
+    write_config(config)
+    return f"Privacy mode {'enabled' if enabled else 'disabled'}"
+
+def get_privacy_mode():
+    config = read_config()
+    return config.get("privacy_mode", True)
 
 def execute_wallpaper_module(args):
     wallpaper_script = os.path.join(os.path.dirname(__file__), "wallpaper.py")
