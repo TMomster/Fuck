@@ -8,7 +8,7 @@ Fuck is a highly efficient file path and resource manager that leverages the UPA
 
 ## Core Features
 
-###1. UPATH File Management
+### 1. UPATH File Management
 
 - **Create**: `fuck -m new [name] [content]`
 - **Delete**: `fuck -m del [name]`
@@ -18,17 +18,17 @@ Fuck is a highly efficient file path and resource manager that leverages the UPA
 - **View Content**: `fuck -m cat [name]`
 - **Organize**: `fuck -m check`
 
-###2. Quick Access
+### 2. Quick Access
 
 - Launch resources directly: `fuck [UPATH name]`
   - Supports files, directories, URLs, and applications
 
-###3. Browser Management
+### 3. Browser Management
 
 - **Set browser path**: `fuck -m browser set [path]`
 - **View browser path**: `fuck -m browser get`
 
-###4. Wallpaper Management
+### 4. Wallpaper Management
 
 - **Set wallpaper**: `fuck -wp set [image path/UPATH]`
 - **Set wallpaper folder**: `fuck -wp folder [UPATH name]`
@@ -104,9 +104,13 @@ fuck -wp next
 
 The program is written in Python and invoked via a C language entry point, supporting cross-platform use (Windows/macOS/Linux). Color output is achieved using ANSI escape sequences, which work best in ANSI-compatible terminals.
 
+---
+
 **Note**
 
 The program name "Fuck" is merely a project codename. In actual use, you can generate a custom-named executable file by compiling the C file.
+
+---
 
 TMomster, 2025.05.19
 

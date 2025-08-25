@@ -14,7 +14,9 @@ int main(int argc, char *argv[]) {
     char command[MAX_COMMAND_LENGTH];
     command[0] = '\0';
 
-    strcat(command, "python G:\\fuck\\core.py");
+    // you may need to change this path to your install directory,
+    // then recompile this c program.
+    strcat(command, "python C:\\fuck\\core.py");
 
     for (int i = 1; i < argc; i++) {
         strcat(command, " ");
