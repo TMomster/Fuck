@@ -357,126 +357,188 @@ def launch_path_from_upath_with_browser(filename, open_directory=False):
             return f"{RED}err: Path '{path_content}' not found.{RESET}"
 
 def show_help():
-    """显示交互式帮助系统"""
+    """显示结构化帮助系统"""
     help_topics = {
         "1": {
-            "title": "UPATH文件定义",
+            "title": "程序介绍与概述",
             "content": f"""
-{ORANGE}UPATH文件定义:{RESET}
-UPATH是Fuck系统的核心概念，它是一个包含路径、URL或目录引用的文本文件。
+{ORANGE}█ 程序介绍与概述{RESET}
 
-{ORANGE}UPATH类型:{RESET}
-1. {LIGHT_GREEN}普通UPATH{RESET}: 存储文件路径、目录路径或程序路径
-2. {LIGHT_GREEN}图像UPATH{RESET}: 存储图像文件路径，会自动归类到IMAGES目录
-3. {LIGHT_GREEN}URL UPATH{RESET}: 存储网页链接，会自动归类到URL目录
+{LIGHT_BLUE}Fuck 是一个轻量级的本地快捷启动系统{RESET}，旨在通过自定义的 UPATH 文件快速访问常用程序、目录、网页和壁纸。
 
-{ORANGE}UPATH文件格式:{RESET}
-- 普通UPATH: 直接包含路径，如 "C:\\Program Files\\App\\app.exe"
-- 图像UPATH: 包含图像文件路径，如 "C:\\Wallpapers\\image.jpg"
-- URL UPATH: 包含网页链接，如 "https://www.example.com"
+{ORANGE}核心概念：UPATH{RESET}
+- UPATH 是一种以 `.upath` 为后缀的纯文本文件。
+- 每个 UPATH 文件存储一个目标路径、URL 或可执行文件位置。
+- 你可以通过命令 `fuck <名称>` 快速启动它。
 
-{ORANGE}创建UPATH:{RESET}
-使用命令: {CYAN}fuck -m new <upath名称> <路径/URL>{RESET}
+{ORANGE}三大分类（自动管理）：{RESET}
+1. {LIGHT_GREEN}普通 UPATH{RESET}：指向本地程序或文件（如：`\"C:\\\\Tools\\\\notepad.exe\"`）
+2. {LIGHT_GREEN}图像 UPATH{RESET}：指向图片文件（`.jpg`, `.png` 等），用于壁纸功能
+3. {LIGHT_GREEN}URL UPATH{RESET}：以 `http://` 或 `https://` 开头，自动归类为网页链接
+
+{ORANGE}设计理念：{RESET}
+- 快速访问：告别桌面快捷方式和复杂路径
+- 统一管理：所有快捷方式集中存储在 `memory/` 目录下
+- 可扩展性：支持浏览器、壁纸轮换等模块化功能
 """
         },
         "2": {
             "title": "基本用法",
             "content": f"""
-{ORANGE}基本用法:{RESET}
+{ORANGE}█ 基本用法{RESET}
 
-1. {LIGHT_GREEN}启动UPATH:{RESET}
-   {CYAN}fuck <upath名称>{RESET} - 启动指定的UPATH
+{LIGHT_GREEN}▶ 启动一个 UPATH{RESET}
+    {CYAN}fuck <名称>{RESET}
+    示例：{CYAN}fuck chrome{RESET} —— 启动 Chrome 浏览器
 
-2. {LIGHT_GREEN}创建UPATH:{RESET}
-   {CYAN}fuck -m new <名称> <路径/URL>{RESET} - 创建新的UPATH
+{LIGHT_GREEN}▶ 打开文件所在目录{RESET}
+    {CYAN}fuck -d <名称>{RESET}
+    示例：{CYAN}fuck -d mydoc{RESET} —— 打开 mydoc 指向文件所在的文件夹
 
-3. {LIGHT_GREEN}删除UPATH:{RESET}
-   {CYAN}fuck -m del <名称>{RESET} - 删除指定的UPATH
+{LIGHT_GREEN}▶ 查看 UPATH 内容{RESET}
+    {CYAN}fuck -m cat <名称>{RESET}
+    示例：{CYAN}fuck -m cat work{RESET} —— 查看 work.upath 中的路径
 
-4. {LIGHT_GREEN}更新UPATH:{RESET}
-   {CYAN}fuck -m update <名称> <新路径/URL>{RESET} - 更新UPATH内容
-
-5. {LIGHT_GREEN}重命名UPATH:{RESET}
-   {CYAN}fuck -m rename <旧名称> <新名称>{RESET} - 重命名UPATH
-
-6. {LIGHT_GREEN}列出所有UPATH:{RESET}
-   {CYAN}fuck -m list{RESET} - 显示所有UPATH及其内容
-
-7. {LIGHT_GREEN}查看UPATH内容:{RESET}
-   {CYAN}fuck -m cat <名称>{RESET} - 显示指定UPATH的内容
+{LIGHT_GREEN}▶ 列出所有 UPATH{RESET}
+    {CYAN}fuck -m list{RESET}
+    显示所有已创建的 UPATH 及其类型和目标路径
 """
         },
         "3": {
-            "title": "快捷键参数",
+            "title": "命令模式 (-m)",
             "content": f"""
-{ORANGE}快捷键参数:{RESET}
+{ORANGE}█ 命令模式 (-m){RESET}
+使用格式：{CYAN}fuck -m <命令> [参数]{RESET}
 
-1. {LIGHT_GREEN}-d 参数:{RESET}
-   {CYAN}fuck -d <upath名称>{RESET} - 打开UPATH指向文件所在的目录
-   例如: {CYAN}fuck -d myapp{RESET} 会打开myapp UPATH指向的文件所在目录
+{ORANGE}可用命令：{RESET}
 
-2. {LIGHT_GREEN}-wp 参数:{RESET}
-   {CYAN}fuck -wp <command>{RESET} - 壁纸相关功能
-   子命令:
-     - {CYAN}set <图像UPATH>{RESET}: 设置壁纸
-     - {CYAN}folder <目录UPATH>{RESET}: 设置壁纸目录
-     - {CYAN}next{RESET}: 切换到下一张壁纸
+{LIGHT_GREEN}• new <名称> <路径/URL>{RESET}
+    创建新的 UPATH 文件
+    示例：{CYAN}fuck -m new vscode \"C:\\\\Users\\\\App\\\\Code.exe\"{RESET}
 
-3. {LIGHT_GREEN}-m 参数:{RESET}
-   {CYAN}fuck -m <command>{RESET} - 管理UPATH文件
-   子命令: new, del, update, rename, list, cat, browser, check
+{LIGHT_GREEN}• del <名称>{RESET}
+    删除指定的 UPATH
+    示例：{CYAN}fuck -m del oldapp{RESET}
+
+{LIGHT_GREEN}• update <名称> <新路径>{RESET}
+    更新已有 UPATH 的内容
+    示例：{CYAN}fuck -m update blog https://myblog.com  {RESET}
+
+{LIGHT_GREEN}• rename <旧名> <新名>{RESET}
+    重命名 UPATH
+    示例：{CYAN}fuck -m rename site blog{RESET}
+
+{LIGHT_GREEN}• list{RESET}
+    列出所有 UPATH 及其状态（绿色=存在，橙色=路径有效但未运行）
+
+{LIGHT_GREEN}• check{RESET}
+    自动整理 UPATH 分类（图像 → IMAGES，URL → URL，其余 → UPATH）
+
+{LIGHT_GREEN}• help{RESET}
+    显示本帮助系统
 """
         },
         "4": {
-            "title": "使用技巧",
+            "title": "浏览器配置",
             "content": f"""
-{ORANGE}使用技巧:{RESET}
+{ORANGE}█ 浏览器配置{RESET}
 
-1. {LIGHT_GREEN}快速启动:{RESET}
-   为常用程序创建UPATH，然后只需输入 {CYAN}fuck <名称>{RESET} 即可快速启动
+{LIGHT_GREEN}▶ 设置默认浏览器{RESET}
+    {CYAN}fuck -m browser set <浏览器路径>{RESET}
+    示例：{CYAN}fuck -m browser set \"C:\\\\Program Files\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe\"{RESET}
 
-2. {LIGHT_GREEN}组织UPATH:{RESET}
-   使用 {CYAN}fuck -m check{RESET} 自动将UPATH文件分类到正确的目录
+{LIGHT_GREEN}▶ 查看当前浏览器{RESET}
+    {CYAN}fuck -m browser get{RESET}
 
-3. {LIGHT_GREEN}浏览器集成:{RESET}
-   使用 {CYAN}fuck -m browser set <浏览器路径>{RESET} 设置默认浏览器
-   然后可以使用UPATH直接打开网页链接
+{LIGHT_GREEN}▶ 使用浏览器打开链接{RESET}
+    创建一个 URL 类型的 UPATH：
+    {CYAN}fuck -m new github https://github.com  {RESET}
+    然后运行：
+    {CYAN}fuck github{RESET}
+    将使用你设置的浏览器自动打开该网页。
 
-4. {LIGHT_GREEN}壁纸循环:{RESET}
-   设置壁纸目录后，使用 {CYAN}fuck -wp next{RESET} 可以循环切换壁纸
+{ORANGE}注意：{RESET}
+- 若未设置浏览器路径，系统将提示错误。
+- 支持传递额外参数，如 `--incognito`。
+"""
+        },
+        "5": {
+            "title": "壁纸配置",
+            "content": f"""
+{ORANGE}█ 壁纸配置 (-wp){RESET}
 
-5. {LIGHT_GREEN}目录快捷方式:{RESET}
-   为常用目录创建UPATH，然后使用 {CYAN}fuck <名称>{RESET} 快速打开目录
-   或使用 {CYAN}fuck -d <名称>{RESET} 打开该目录
+{LIGHT_GREEN}▶ 设置壁纸目录{RESET}
+    {CYAN}fuck -wp folder <目录UPATH>{RESET}
+    示例：{CYAN}fuck -wp folder wallpapers{RESET}
+    （需先创建一个指向图片文件夹的 UPATH）
 
-6. {LIGHT_GREEN}.lnk文件支持:{RESET}
-   Fuck支持直接使用Windows快捷方式(.lnk文件)作为UPATH内容
+{LIGHT_GREEN}▶ 手动设置壁纸{RESET}
+    {CYAN}fuck -wp set <图像UPATH>{RESET}
+    示例：{CYAN}fuck -wp set bg_night{RESET}
+
+{LIGHT_GREEN}▶ 切换到下一张壁纸{RESET}
+    {CYAN}fuck -wp next{RESET}
+    从壁纸目录中随机选择一张图片并设置为桌面壁纸。
+
+{ORANGE}功能说明：{RESET}
+- 支持 JPG、PNG、GIF 等常见图片格式
+- 壁纸自动适应屏幕分辨率
+- 图像 UPATH 会自动归类到 `memory/IMAGES/` 目录
+"""
+        },
+        "6": {
+            "title": "启动参数",
+            "content": f"""
+{ORANGE}█ 启动参数{RESET}
+
+{LIGHT_GREEN}• -d <名称>{RESET}
+    打开 UPATH 指向文件所在的**目录**，而不是启动它。
+    特别适合快速访问项目文件夹或文档位置。
+
+{LIGHT_GREEN}• -m <命令>{RESET}
+    进入命令管理模式，用于管理 UPATH 文件。
+    所有管理操作都通过此参数触发。
+
+{LIGHT_GREEN}• -wp <子命令>{RESET}
+    调用壁纸管理模块。
+    子命令：{CYAN}folder{RESET}, {CYAN}set{RESET}, {CYAN}next{RESET}
+
+{ORANGE}示例组合：{RESET}
+- {CYAN}fuck -d project{RESET} → 打开 project 的所在目录
+- {CYAN}fuck -m list{RESET} → 查看所有快捷方式
+- {CYAN}fuck -wp next{RESET} → 更换下一张壁纸
+
+{ORANGE}提示：{RESET}
+参数顺序不能错，例如 `-d` 必须放在 UPATH 名称前。
 """
         }
     }
-    
-    print(f"{LIGHT_BLUE}---------- Fuck帮助系统 ----------{RESET}")
-    print("输入序号选择帮助主题，输入'q'退出帮助")
-    print()
-    
+
+    # 显示帮助主菜单
+    print(f"\n{LIGHT_BLUE}╔══════════════════════════════════╗{RESET}")
+    print(f"{LIGHT_BLUE}║           {PURPLE}Fuck 帮助中心{LIGHT_BLUE}          ║{RESET}")
+    print(f"{LIGHT_BLUE}╚══════════════════════════════════╝{RESET}")
+    print(f"{YELLOW}输入数字选择主题，输入 {CYAN}q{YELLOW} 退出帮助{RESET}\n")
+
     for key, topic in help_topics.items():
-        print(f"{ORANGE}[{key}]{RESET} {topic['title']}")
-    
+        print(f"  {ORANGE}[{key}]{RESET} {topic['title']}")
+
     print()
-    
+
+    # 交互式选择
     while True:
-        choice = input(f"{LIGHT_GREEN}请输入选项 (1-4) 或 'q' 退出: {RESET}").strip().lower()
-        
+        choice = input(f"{LIGHT_GREEN}请选择 (1-6) 或输入 'q' 退出: {RESET}").strip().lower()
         if choice == 'q':
-            print(f"{LIGHT_BLUE}退出帮助系统{RESET}")
+            print(f"\n{LIGHT_BLUE}已退出帮助系统。{RESET}")
             break
-        
-        if choice in help_topics:
-            print(f"\n{ORANGE}=== {help_topics[choice]['title']} ==={RESET}")
+        elif choice in help_topics:
+            print(f"\n{ORANGE}{'='*40}{RESET}")
+            print(f"{ORANGE}  {help_topics[choice]['title']}{RESET}")
+            print(f"{ORANGE}{'='*40}{RESET}")
             print(help_topics[choice]['content'])
-            print(f"{LIGHT_BLUE}--------------------------------{RESET}")
+            print(f"{LIGHT_BLUE}{'-'*40}{RESET}\n")
         else:
-            print(f"{RED}无效选项，请重新选择{RESET}")
+            print(f"{RED}无效输入，请输入 1-6 或 'q'。{RESET}")
 
 def main():
     print(f"{LIGHT_BLUE}---------->>>")
