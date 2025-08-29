@@ -1,113 +1,97 @@
-# Fuck Program User Guide
+# Fuck: Local Shortcut Launcher System
 
-如果您是中文使用者，请参阅[ReadmeCN](./ReadmeCN.md)。
+> 📌 **中文使用者请参阅 [ReadmeCN.md](ReadmeCN.md)**
 
-## Overview
+`Fuck` is a lightweight command-line shortcut launcher designed to boost productivity. By defining `.upath` files, you can quickly launch applications, open directories, browse URLs, or manage wallpapers with simple commands.
 
-Fuck is a highly efficient file path and resource manager that leverages the UPATH file system to facilitate rapid access to frequently used paths, URLs, and applications. The program offers a robust command-line interface, supporting path management, browser integration, wallpaper switching, and more.
+---
 
-## Core Features
+## 📦 Features
 
-###1. UPATH File Management
+- 🔧 **Quick Launch**: Use `fuck <name>` to launch programs or files instantly
+- 🌐 **Browser Integration**: Set a default browser and open web links directly
+- 🖼️ **Wallpaper Management**: Set, switch, and manage wallpaper folders
+- 📁 **Smart Categorization**: Automatically organizes UPATH files into IMAGES, URL, and UPATH directories
+- 🛠 **Command Management**: Create, delete, update, and rename UPATH entries
+- 🖱️ **Open Containing Folder**: Use `-d` to open the directory of a target file
 
-- **Create**: `fuck -m new [name] [content]`
-- **Delete**: `fuck -m del [name]`
-- **Update**: `fuck -m update [name] [new content]`
-- **Rename**: `fuck -m rename [old name] [new name]`
-- **List**: `fuck -m list`
-- **View Content**: `fuck -m cat [name]`
-- **Organize**: `fuck -m check`
+---
 
-###2. Quick Access
+## 🚀 Getting Started
 
-- Launch resources directly: `fuck [UPATH name]`
-  - Supports files, directories, URLs, and applications
+### 1. Prerequisites
 
-###3. Browser Management
+Ensure Python 3 is installed and added to your system PATH.
 
-- **Set browser path**: `fuck -m browser set [path]`
-- **View browser path**: `fuck -m browser get`
+### 2. Initialize the Environment
 
-###4. Wallpaper Management
-
-- **Set wallpaper**: `fuck -wp set [image path/UPATH]`
-- **Set wallpaper folder**: `fuck -wp folder [UPATH name]`
-- **Switch to next wallpaper**: `fuck -wp next`
-
-## File Structure
-
-```
-fuck/
-├── core.py         # Core functionality module
-├── fuck.c          # C language entry program
-├── outstream.py    # ANSI color output tool
-├── overload.py     # Function overloading support
-├── utils.py        # Utility functions
-└── wallpaper.py    # Wallpaper management module
-memory/
-├── UPATH/          # UPATH file storage
-├── IMAGES/         # Image resource storage
-├── URL/            # URL resource storage
-└── config.json     # Configuration file
-```
-
-## Usage Examples
-
-### Creating a UPATH
+Run the initializer script to set up the directory structure and config:
 
 ```bash
-fuck -m new project_dir "D:/Projects"
-fuck -m new github https://github.com
+python initializer.py
 ```
 
-### Accessing Resources
+### 3. Create Your First UPATH
 
 ```bash
-# Open directory
-fuck project_dir
-
-# Visit website
-fuck github
+fuck -m new notepad "C:\Windows\System32\notepad.exe"
 ```
 
-### Wallpaper Management
+### 4. Launch It!
 
 ```bash
-# Set wallpaper folder
-fuck -wp folder wallpapers
-
-# Switch to next wallpaper
-fuck -wp next
+fuck notepad
 ```
 
-## Color Coding System
+---
 
-- **Red**: Error messages
-- **Light Green**: URL content
-- **Light Blue**: Titles and separators
-- **Yellow**: Executable files
-- **Orange**: Valid paths
+## 🛠 Usage Examples
 
-## Notes
+| Command                                   | Description                                      |
+| ----------------------------------------- | ------------------------------------------------ |
+| `fuck chrome`                             | Launch the program defined in chrome.upath       |
+| `fuck -d workdoc`                         | Open the directory containing the workdoc target |
+| `fuck -m list`                            | List all UPATH entries                           |
+| `fuck -m new blog https://myblog.com`     | Create a URL shortcut                            |
+| `fuck -wp next`                           | Switch to the next wallpaper                     |
+| `fuck -m browser set "C:\...\chrome.exe"` | Set default browser path                         |
 
-1. UPATH files are stored in three subdirectories within the `memory/` directory:
-   
-   - `UPATH/`: Regular paths
-   - `IMAGES/`: Image paths
-   - `URL/`: Website resources
+---
 
-2. The program automatically detects and classifies UPATH file types.
+## 📁 Project Structure
 
-3. When creating a UPATH with an image URL, the image is automatically downloaded to the local storage.
+```
+/Fuck
+├── fuck.exe                  # Main executable
+├── root.txt                  # Points to the core Python script
+├── initializer.py            # Setup script
+├── core.py                   # Core logic (Python)
+├── wallpaper.py              # Wallpaper module
+├── memory/
+│   ├── config.json           # Configuration file
+│   ├── UPATH/                # General UPATH files
+│   ├── IMAGES/               # Image-type UPATHs
+│   └── URL/                  # URL-type UPATHs
+```
 
-## Developer Notes
+---
 
-The program is written in Python and invoked via a C language entry point, supporting cross-platform use (Windows/macOS/Linux). Color output is achieved using ANSI escape sequences, which work best in ANSI-compatible terminals.
+## ⚠ Notes
 
-**Note**
+- The `root.txt` file must exist and contain the correct path to `core.py`.
+- Avoid using the root directory of `Fuck` as a UPATH content to prevent recursion.
+- Absolute paths are recommended when creating UPATH entries.
 
-The program name "Fuck" is merely a project codename. In actual use, you can generate a custom-named executable file by compiling the C file.
+---
 
-TMomster, 2025.05.19
+## 📄 License & Example Usage
+
+The example domain [example.com](https://www.example.com) is used in documentation. This domain is reserved for illustrative examples and may be used freely without permission.
+
+---
+
+> 💡 Tip: Run `fuck -m help` for an interactive help system.
+
+---
 
 TMomster, 2025.08.07
